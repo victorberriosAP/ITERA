@@ -1,5 +1,3 @@
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-
 export default async function handler(req, res) {
 
   if (req.method !== "POST") {
@@ -18,39 +16,36 @@ export default async function handler(req, res) {
       });
     }
 
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
+    const response = await fetch(
+      `https://formsubmit.co/ajax/${process.env.FORM_EMAIL}`,
+      {
+        method: "POST",
 
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json"
-      },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
 
-      body: JSON.stringify({
-        from: "ITERA <onboarding@resend.dev>",
-        to: ["victor.berrios.sa@gmail.com"],
-        reply_to: email,
-        subject: "Nuevo mensaje desde ITERA",
-
-        text:
-          `Nombre: ${nombre}\n\n` +
-          `Correo: ${email}\n\n` +
-          `Mensaje:\n${mensaje}`
-      })
-    });
+        body: JSON.stringify({
+          nombre: nombre,
+          email: email,
+          mensaje: mensaje,
+          _subject: "Nuevo mensaje desde ITERA"
+        })
+      }
+    );
 
     const data = await response.json();
 
-    console.log("Resend:", response.status, data);
-    // modifique
+    console.log("FormSubmit:", response.status, data);
 
-if (!response.ok) {
-  console.error("ERROR RESEND:", data);
+    if (!response.ok) {
+      console.error("ERROR FORMSUBMIT:", data);
 
-  return res.status(500).json({
-    error: data
-  });
-}
+      return res.status(500).json({
+        error: "No se pudo enviar el mensaje"
+      });
+    }
 
     return res.status(200).json({
       success: true

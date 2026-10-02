@@ -30,14 +30,21 @@ if (form) {
 
     e.preventDefault();
 
-    const datos = new FormData(form);
+    const datos = {
+  nombre: form.nombre.value,
+  email: form.email.value,
+  mensaje: form.mensaje.value
+};
 
     try {
 
       const response = await fetch("/api/contact", {
-        method: "POST",
-        body: datos
-      });
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+  body: JSON.stringify(datos)
+});
 
       if (!response.ok) {
         throw new Error("Error al enviar el formulario");
