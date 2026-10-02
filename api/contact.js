@@ -42,12 +42,15 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     console.log("Resend:", response.status, data);
+    // modifique
 
-    if (!response.ok) {
-      return res.status(500).json({
-        error: "Resend rechazó el envío"
-      });
-    }
+if (!response.ok) {
+  console.error("ERROR RESEND:", data);
+
+  return res.status(500).json({
+    error: data
+  });
+}
 
     return res.status(200).json({
       success: true
