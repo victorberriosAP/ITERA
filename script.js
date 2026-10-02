@@ -21,7 +21,8 @@ if (btn) {
   });
 
 }
-  */
+  
+ /*
  const form = document.getElementById("contactForm");
 
 if (form) {
@@ -69,7 +70,7 @@ if (form) {
   });
 
 }
-
+*/
 /*
 const form = document.getElementById("contactForm");
 
