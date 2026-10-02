@@ -3,7 +3,9 @@ const form = document.getElementById("contactForm");
 if (form) {
 
   form.addEventListener("submit", function () {
-
+    
+    form.reset();
+    
     const modalElement = document.getElementById("successModal");
 
     if (modalElement) {
@@ -11,11 +13,15 @@ if (form) {
       modal.show();
     }
 
+    
+
   });
 
-  form.reset();
-
 }
+
+
+
+
 
 function mostrarCodigo(archivo, boton) {
 
