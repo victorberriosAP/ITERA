@@ -1,3 +1,4 @@
+/*
 const btn = document.getElementById("btnTop");
 
 if (btn) {
@@ -16,6 +17,47 @@ if (btn) {
       top: 0,
       behavior: "smooth"
     });
+
+  });
+
+}
+  */
+ const form = document.getElementById("contactForm");
+
+if (form) {
+
+  form.addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const datos = new FormData(form);
+
+    try {
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        body: datos
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario");
+      }
+
+      form.reset();
+
+      const modalElement = document.getElementById("successModal");
+
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
+
+    } catch (error) {
+
+      console.error(error);
+      alert("No se pudo enviar el mensaje. Inténtalo nuevamente.");
+
+    }
 
   });
 
