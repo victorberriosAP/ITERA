@@ -120,13 +120,13 @@
         ¿Qué encontrarás aquí?
       </h2>
 
-      <p class="text-light">
+      <p class="text-secondary">
         Este laboratorio reúne pequeños desarrollos realizados para
         automatizar tareas, transformar información y reducir procesos
         manuales que normalmente requieren trabajo repetitivo.
       </p>
 
-      <p class="text-light">
+      <p class="text-secondary">
         La idea no es mostrar código por mostrar código, sino explicar
         <strong class="text-light">qué problema existe</strong>,
         <strong class="text-light">cómo se aborda</strong> y
@@ -275,7 +275,7 @@
 
   <div class="text-center mb-5">
 
-    <span class="badge border border-secondary text-light">
+    <span class="badge border border-secondary text-secondary">
       Python · Pandas · SQLite · SQL · Excel
     </span>
 
@@ -283,7 +283,7 @@
       Procesamiento de datos operacionales
     </h2>
 
-    <p class="text-light col-lg-8 mx-auto">
+    <p class="text-secondary col-lg-8 mx-auto">
       Desarrollo de scripts en Python para transformar información
       descargada desde sistemas operacionales, reduciendo tareas
       repetitivas de limpieza, filtrado, agrupación y preparación de archivos.
@@ -382,37 +382,63 @@
   <div class="row g-4">
 
 
-    <!-- EXPEDICIÓN 01-->
-    <div class="col-md-6">
+<!-- ============================================================
+     TARJETA DE PROCESO CON CÓDIGO
+     
+     PARA REUTILIZAR:
+     1. Copiar esta sección completa.
+     2. Cambiar número, título y descripción.
+     3. Cambiar el ID "codigoExpedicion".
+     4. Cambiar el ID "codigo-expedicion".
+     5. Cambiar en el script el archivo TXT correspondiente.
+     ============================================================ -->
 
-      <div class="card bg-black border-secondary h-100">
+<!-- EXPEDICIÓN 01 -->
+<div class="col-md-6">
 
-        <div class="card-body p-4">
+  <div class="card bg-black border-secondary h-100">
 
-          <span class="badge border border-secondary text-secondary">
-            01
-          </span>
+    <div class="card-body p-4">
 
-          <h4 class="mt-3">
-            Preparación de expedición
-          </h4>
+      <span class="badge border border-secondary text-secondary">
+        01
+      </span>
 
-          <p class="text-secondary">
-            Transformación de información de órdenes para preparar
-            ID de carga, destinos y datos utilizados posteriormente
-            en el WMS.
-          </p>
+      <h4 class="mt-3">
+        Preparación de expedición
+      </h4>
 
-          <p class="text-secondary mb-0">
-            <strong class="text-light">Flujo:</strong><br>
-            Excel → Pandas → Transformación → Excel
-          </p>
+      <p class="text-secondary">
+        Transformación de información de órdenes para preparar
+        ID de carga, destinos y datos utilizados posteriormente
+        en el WMS.
+      </p>
 
-        </div>
+      <p class="text-secondary mb-0">
+        <strong class="text-light">Flujo:</strong><br>
+        Excel → Pandas → Transformación → Excel
+      </p>
 
+
+      <!-- BOTÓN CÓDIGO -->
+
+      <button class="btn btn-outline-light btn-sm mt-3"
+              onclick="mostrarCodigo('codigo/expedicion.txt', this)">
+
+        <i class="bi bi-code-slash me-1"></i>
+        Ver código
+
+      </button>
+
+      <div class="mt-3 d-none">
+        <pre class="bg-dark border border-secondary rounded p-3 text-light text-start"><code></code></pre>
       </div>
 
-    </div>
+          </div>
+        
+        </div>
+      
+      </div>
 
 
     <!-- SALDOS 02-->
@@ -439,6 +465,24 @@
             <strong class="text-light">Flujo:</strong><br>
             Excel → Pandas → Limpieza → Excel
           </p>
+          <!-- BOTÓN CÓDIGO -->
+
+          <button class="btn btn-outline-light btn-sm mt-3"
+                  onclick="mostrarCodigo('codigo/saldos.txt', this)"
+
+            <i class="bi bi-code-slash me-1"></i>
+            Ver código
+
+          </button>
+
+
+          <!-- CÓDIGO -->
+
+          <div class="mt-3 d-none">
+          
+            <pre class="bg-dark border border-secondary rounded p-3 text-light text-start"><code>Cargando código...</code></pre>
+          
+          </div>
 
         </div>
 
@@ -472,6 +516,24 @@
             <strong class="text-light">Flujo:</strong><br>
             Excel → Pandas → Clasificación → 2 archivos
           </p>
+          <!-- BOTÓN CÓDIGO -->
+
+          <button class="btn btn-outline-light btn-sm mt-3"
+                  onclick="mostrarCodigo('codigo/recepciones.txt', this)"
+
+            <i class="bi bi-code-slash me-1"></i>
+            Ver código
+
+          </button>
+
+
+          <!-- CÓDIGO -->
+
+          <div class="mt-3 d-none">
+          
+            <pre class="bg-dark border border-secondary rounded p-3 text-light text-start"><code>Cargando código...</code></pre>
+          
+          </div>
 
         </div>
 
@@ -505,6 +567,25 @@
             <strong class="text-light">Flujo:</strong><br>
             Excel → Pandas → SQLite / SQL → Excel
           </p>
+
+          <!-- BOTÓN CÓDIGO -->
+
+          <button class="btn btn-outline-light btn-sm mt-3"
+                  onclick="mostrarCodigo('codigo/ordenes_sql.txt', this)"
+                  
+            <i class="bi bi-code-slash me-1"></i>
+            Ver código
+                  
+          </button>
+          
+          
+          <!-- CÓDIGO -->
+          
+          <div class="mt-3 d-none">
+          
+            <pre class="bg-dark border border-secondary rounded p-3 text-light text-start"><code>Cargando código...</code></pre>
+          
+          </div>
 
         </div>
 
@@ -597,7 +678,10 @@
 
   <!-- Script externo -->
 
+
   <script src="script.js"></script>
+
+
 
 </body>
 </html>
