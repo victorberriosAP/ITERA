@@ -1,3 +1,15 @@
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("enviado") === "1") {
+
+  const modalElement = document.getElementById("successModal");
+
+  if (modalElement) {
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+
+}
 /*
 const btn = document.getElementById("btnTop");
 
