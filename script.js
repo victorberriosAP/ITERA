@@ -35,8 +35,11 @@ if (form) {
     const modalElement = document.getElementById("successModal");
 
     if (modalElement) {
+
       const modal = new bootstrap.Modal(modalElement);
+
       modal.show();
+
     }
 
   });

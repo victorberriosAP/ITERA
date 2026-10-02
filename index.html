@@ -193,89 +193,91 @@
 </section>
 
   <!-- CONTACTO -->
-<section id="contacto" class="py-5 border-top border-secondary">
-  <div class="container text-center">
+  <!-- FORM CARD -->
 
-    <!-- título -->
-    <h2 class="text-light mb-4">
-      <i class="bi bi-envelope me-2 text-shadow-strong"></i>Contacto
-    </h2>
+  <div class="card bg-black border-secondary mx-auto" style="max-width: 700px;">
+    <div class="card-body">
 
-    <!-- FORM CARD -->
-    <div class="card bg-black border-secondary mx-auto" style="max-width: 700px;">
-      <div class="card-body">
 
-        <form id="contactForm">
+  <form id="contactForm" action="/api/contact" method="POST">
 
-          <!-- fila: nombre + email -->
-          <div class="row g-4">
+    <!-- fila: nombre + email -->
+    <div class="row g-4">
 
-            <div class="col-md-6">
-              <input type="text"
-                     id="nombre"
-                     class="form-control bg-transparent text-light border-0 border-bottom border-secondary rounded-0"
-                     placeholder="Nombre"
-                     required>
-            </div>
-
-            <div class="col-md-6">
-              <input type="email"
-                     id="email"
-                     class="form-control bg-transparent text-light border-0 border-bottom border-secondary rounded-0"
-                     placeholder="Correo electrónico"
-                     required>
-            </div>
-
-          </div>
-
-          <!-- mensaje -->
-          <div class="mt-4">
-            <textarea id="mensaje"
-                      class="form-control bg-transparent text-light border-0 border-bottom border-secondary rounded-0"
-                      rows="4"
-                      placeholder="Mensaje o asunto"
-                      required></textarea>
-          </div>
-
-          <!-- botón -->
-          <div class="text-center mt-4">
-            <button type="submit" class="btn btn-outline-success px-5">
-              Enviar
-            </button>
-          </div>
-
-        </form>
-
+      <div class="col-md-6">
+        <input type="text"
+               id="nombre"
+               name="nombre"
+               class="form-control bg-transparent text-light border-0 border-bottom border-secondary rounded-0"
+               placeholder="Nombre"
+               required>
       </div>
+
+      <div class="col-md-6">
+        <input type="email"
+               id="email"
+               name="email"
+               class="form-control bg-transparent text-light border-0 border-bottom border-secondary rounded-0"
+               placeholder="Correo electrónico"
+               required>
+      </div>
+
     </div>
 
-  </div>
-</section>
+    <!-- mensaje -->
+    <div class="mt-4">
+      <textarea id="mensaje"
+                name="mensaje"
+                class="form-control bg-transparent text-light border-0 border-bottom border-secondary rounded-0"
+                rows="4"
+                placeholder="Mensaje o asunto"
+                required></textarea>
+    </div>
 
-<!-- MODAL ENVIADO -->
-<div class="modal fade" id="successModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div class="modal-content text-center p-4">
-
-      <!-- icono -->
-      <div class="mb-3">
-        <div style="font-size: 50px; color: #28a745;">
-          ✔
-        </div>
-      </div>
-
-      <h5 class="mb-2 text-muted">¡Gracias por tu mensaje!</h5>
-      <p class="text-muted">Te responderé lo antes posible.</p>
-
-      <button class="btn btn-primary mt-3" data-bs-dismiss="modal">
-        Aceptar
+    <!-- botón -->
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-outline-success px-5">
+        Enviar
       </button>
-
     </div>
 
+  </form>
+
+
+    </div>
   </div>
-</div>
+
+  <!-- MODAL ENVIADO -->
+
+  <div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+
+
+  <div class="modal-content text-center p-4">
+
+    <div class="mb-3">
+      <div style="font-size: 50px; color: #28a745;">
+        ✔
+      </div>
+    </div>
+
+    <h5 class="mb-2 text-muted">¡Gracias por tu mensaje!</h5>
+
+    <p class="text-muted">
+      Te responderé lo antes posible.
+    </p>
+
+    <button class="btn btn-primary mt-3" data-bs-dismiss="modal">
+      Aceptar
+    </button>
+
+  </div>
+
+
+    </div>
+  </div>
+
+
 
   <!-- BOTÓN TOP -->
 <button id="btnTop" class="position-fixed bottom-0 end-0 m-4 bg-transparent border-0 text-light">
