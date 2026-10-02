@@ -21,7 +21,7 @@ if (btn) {
 
 }
 
-
+/*
 const form = document.getElementById("contactForm");
 
 if (form) {
@@ -42,7 +42,7 @@ if (form) {
   });
 
 }
-
+*/
 
 function mostrarCodigo(archivo, boton) {
 
