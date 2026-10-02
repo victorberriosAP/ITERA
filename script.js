@@ -1,3 +1,21 @@
+const form = document.getElementById("contactForm");
+
+if (form) {
+
+  form.addEventListener("submit", function () {
+
+    const modalElement = document.getElementById("successModal");
+
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+
+  });
+
+}
+
+/*
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("enviado") === "1") {
@@ -10,6 +28,7 @@ if (params.get("enviado") === "1") {
   }
 
 }
+  */
 /*
 const btn = document.getElementById("btnTop");
 
