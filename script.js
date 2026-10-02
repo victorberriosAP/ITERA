@@ -2,52 +2,63 @@ const form = document.getElementById("contactForm");
 
 if (form) {
 
-  form.addEventListener("submit", async function (e) {
+form.addEventListener("submit", async function (e) {
 
-    e.preventDefault();
 
-    try {
+e.preventDefault();
 
-      const response = await fetch("/api/contact", {
+const button = form.querySelector("button[type='submit']");
 
-        method: "POST",
+if (button) {
+  button.disabled = true;
+  button.textContent = "Enviando...";
+}
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+try {
 
-        body: JSON.stringify({
-          nombre: document.getElementById("nombre").value,
-          email: document.getElementById("email").value,
-          mensaje: document.getElementById("mensaje").value
-        })
+  const response = await fetch(form.action, {
 
-      });
+    method: "POST",
 
-      if (!response.ok) {
-        throw new Error("No se pudo enviar el mensaje");
-      }
-
-      form.reset();
-
-      const modalElement = document.getElementById("successModal");
-
-      if (modalElement) {
-
-        const modal = new bootstrap.Modal(modalElement);
-
-        modal.show();
-
-      }
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert("No se pudo enviar el mensaje. Inténtalo nuevamente.");
-
-    }
+    body: new FormData(form)
 
   });
+
+  if (!response.ok) {
+    throw new Error("No se pudo enviar el mensaje");
+  }
+
+  form.reset();
+
+  if (button) {
+    button.disabled = false;
+    button.textContent = "Enviar";
+  }
+
+  const modalElement = document.getElementById("successModal");
+
+  if (modalElement) {
+
+    const modal = new bootstrap.Modal(modalElement);
+
+    modal.show();
+
+  }
+
+} catch (error) {
+
+  console.error(error);
+
+  if (button) {
+    button.disabled = false;
+    button.textContent = "Enviar";
+  }
+
+  alert("No se pudo enviar el mensaje. Inténtalo nuevamente.");
+
+}
+
+
+});
 
 }
