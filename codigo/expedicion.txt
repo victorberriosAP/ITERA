@@ -1,0 +1,76 @@
+# --- EXPEDIR ---
+import pandas as pd
+import glob
+import os
+
+# --- CONFIGURACIÓN DE RUTAS ---
+path_dw = os.path.join(os.path.expanduser('~'), 'Downloads', '*.xlsx')
+file = glob.glob(path_dw)
+last_file = max(file, key=os.path.getmtime)
+path_file_result = os.path.join(os.path.expanduser('~'), 'Desktop', 'resultado_Export.xlsx')
+
+print(f"Procesando columna O de: {last_file}")
+
+# 1. Carga mínima: solo columna O, todo como texto, sin saltar ninguna fila
+df_0 = pd.read_excel(last_file,
+                     sheet_name='Data',
+                     skiprows=1,
+                     usecols='C:AI',
+                     dtype=str)
+
+# 2. Limpieza de la columna (quitamos espacios y el encabezado si quedó dentro)
+df = df_0[[
+    'Fecha de expedición solicitada',
+    'Nº orden', 
+    'Propietario', 
+    'Tipo',
+    'Orden externa Nº1', 
+    'Orden externa Nº2',
+    'Número de carga'
+]]
+
+# Extraer los primeros 2 dígitos y convertir a entero
+df['num_dia'] = df['Fecha de expedición solicitada'].str[:2].astype(int)
+
+# Rename columns
+df = df.rename(columns={
+    'Nº orden': 'n_orden',
+    'Orden externa Nº1': 'oe_N1',
+    'Fecha de expedición solicitada': 'Fecha',
+    'Orden externa Nº2': 'oe_N2',
+    'Número de carga': 'ID'
+})
+
+#df['ID'] = df['ID'].str.strip()
+
+# Creamos la columna 'Destino_Final' usando una condición lógica de Pandas
+# Por defecto, ponemos oe_N2
+df['Destino_Final'] = df['oe_N2']
+# Donde el Propietario sea '0313', sobreescribimos con oe_N1
+df.loc[df['Propietario'] == '0313', 'Destino_Final'] = df['oe_N1']
+# Eliminamos los duplicados para que quede un solo dato por ID
+df_final = df.drop_duplicates(subset=['ID'])
+# Quitamos valores NaN
+df_final = df_final[df_final['ID'].notna()]
+# Creamos la nueva columna concatenando el texto y el ID
+df_final['ID_formateado'] = " o " + df_final['ID'].astype(str)
+
+df_final = df_final[[
+    'num_dia', 
+    'Fecha', 
+    'Tipo', 
+    'Propietario', 
+    'Destino_Final', 
+    'ID',
+    'ID_formateado'
+]]
+
+df_final = df_final[df_final['ID'].notna()]
+print(df_final.head(20))
+
+print(f"IDs únicos encontrados por Pandas: {len(df_final)}")
+
+# 5. Formato para el buscador del WMS
+
+df_final.to_excel(path_file_result, index=False)
+os.startfile(path_file_result)
