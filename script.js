@@ -4,7 +4,7 @@ if (form) {
 
   form.addEventListener("submit", function () {
     
-    form.reset();
+    
     
     const modalElement = document.getElementById("successModal");
 
@@ -12,7 +12,7 @@ if (form) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     }
-
+    form.reset();
     
 
   });
