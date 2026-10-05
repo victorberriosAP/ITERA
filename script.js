@@ -1,3 +1,4 @@
+/*
 const form = document.getElementById("contactForm");
 
 if (form) {
@@ -16,6 +17,29 @@ if (form) {
     
 
   });
+
+}
+*/
+const form = document.getElementById("contactForm");
+
+if (form) {
+
+form.addEventListener("submit", function () {
+
+
+const modalElement = document.getElementById("successModal");
+
+if (modalElement) {
+  const modal = new bootstrap.Modal(modalElement);
+  modal.show();
+}
+
+setTimeout(() => {
+  form.reset();
+}, 500);
+
+
+});
 
 }
 
