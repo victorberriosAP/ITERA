@@ -1,25 +1,4 @@
-/*
-const form = document.getElementById("contactForm");
 
-if (form) {
-
-  form.addEventListener("submit", function () {
-    
-    
-    
-    const modalElement = document.getElementById("successModal");
-
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-    form.reset();
-    
-
-  });
-
-}
-*/
 const form = document.getElementById("contactForm");
 
 if (form) {
@@ -110,3 +89,11 @@ setInterval(() => {
     posicion = 0;
   }
 }, 250);
+
+//Boton Top
+document.getElementById("btnTop").addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
