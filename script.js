@@ -43,10 +43,8 @@ setTimeout(() => {
 
 }
 
-
-
-
-
+//Mostrar codigos desde txt
+/*
 function mostrarCodigo(archivo, boton) {
 
   const contenedor = boton.nextElementSibling;
@@ -62,6 +60,47 @@ function mostrarCodigo(archivo, boton) {
     return;
 
   }
+*/
+// Mostrar códigos desde txt
+
+function mostrarCodigo(archivo, boton) {
+
+  const contenedor = boton.nextElementSibling;
+  const codigo = contenedor.querySelector("code");
+
+  if (!contenedor.classList.contains("d-none")) {
+    return;
+  }
+
+  fetch(archivo)
+    .then(response => response.text())
+    .then(texto => {
+
+      codigo.textContent = texto;
+
+      contenedor.classList.remove("d-none");
+
+    })
+    .catch(error => {
+
+      codigo.textContent = "No se pudo cargar el código.";
+
+      contenedor.classList.remove("d-none");
+
+    });
+}
+
+
+// Ocultar código
+
+function ocultarCodigo(boton) {
+
+  const contenedor = boton.closest(".mt-3");
+
+  contenedor.classList.add("d-none");
+
+}
+
 
   fetch(archivo)
     .then(response => {
