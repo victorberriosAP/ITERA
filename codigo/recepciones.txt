@@ -1,0 +1,50 @@
+#---- RECEPCIONES y DEVOLUCIONES----
+import os
+import glob
+import pandas as pd
+
+# ==========================================================
+# CONFIGURACIÓN
+# ==========================================================
+
+PATH_DESCARGAS = r"C:\Users\victor.berrios\Downloads"
+PATRON_ARCHIVO = "rpt recepciones*.xlsx"
+
+
+# ==========================================================
+# CARGAR ÚLTIMO ARCHIVO DESCARGADO
+# ==========================================================
+
+archivos = glob.glob(os.path.join(PATH_DESCARGAS, PATRON_ARCHIVO))
+
+if not archivos:
+    raise FileNotFoundError("No se encontró ningún archivo rpt recepciones.")
+
+ultimo_archivo = max(archivos, key=os.path.getmtime)
+
+print(f"Cargando: {os.path.basename(ultimo_archivo)}")
+
+df = pd.read_excel(ultimo_archivo, dtype=str)
+
+# ==========================================================
+# LIMPIEZA DE DATOS
+# ==========================================================
+
+# Mantener solo registros negativos
+df_r = df[df["Tipo Recepción"] != '2 – Devolución de Cliente']
+df_d = df[df["Tipo Recepción"] != '1 – ASN Normal']
+
+# ==========================================================
+# EXPORTAR DATOS FILTRADOS
+# ==========================================================
+archivo_Recepcion = "rpt_Recepcion.xlsx"
+archivo_Devolucion = "rpt_Devolucion.xlsx"
+
+# Exportar resultado
+df_d.to_excel(archivo_Devolucion, index=False)
+df_r.to_excel(archivo_Recepcion, index=False)
+
+# Abrir archivo generado
+os.startfile(archivo_Devolucion)
+os.startfile(archivo_Recepcion)
+print("== FINALIZADO ==")

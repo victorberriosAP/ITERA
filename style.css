@@ -46,6 +46,6 @@ body {
 }
 
 .form-control::placeholder {
-  color: #ffffff;
-  opacity: 0.7;
+  color: #858585 !important;
+  opacity: 0.6 !important;
 }

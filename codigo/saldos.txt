@@ -1,0 +1,64 @@
+#---- LIMPIEZA DE SALDOS ----#
+import os
+import glob
+import sqlite3
+import pandas as pd
+
+# ==========================================================
+# CONFIGURACIÓN
+# ==========================================================
+PATH_DESCARGAS = r"C:\Users\victor.berrios\Downloads"
+PATRON_ARCHIVO = "rpt Saldo Stock*.xlsx"
+BASE_DATOS = "mi_base.db"
+
+# ==========================================================
+# CARGAR ÚLTIMO ARCHIVO DESCARGADO
+# ==========================================================
+archivos = glob.glob(os.path.join(PATH_DESCARGAS, PATRON_ARCHIVO))
+
+if not archivos:
+    raise FileNotFoundError("No se encontró ningún archivo RPT F2.")
+
+ultimo_archivo = max(archivos, key=os.path.getmtime)
+print(f"Cargando: {os.path.basename(ultimo_archivo)}")
+
+df = pd.read_excel(ultimo_archivo, dtype=str)
+
+# ==========================================================
+# LIMPIEZA DE DATOS
+# ==========================================================
+# 1. Eliminar las ubicaciones que sean exactamente 'PICKTO' o 'TRANSITOS'
+excluir_exactos = ['PICKTO', 'INTRANSIT']
+df = df[~df["Descripción Ubicación "].isin(excluir_exactos)]
+
+# 2. Eliminar las ubicaciones que comiencen con 'PRECAM'
+df = df[~df["Descripción Ubicación "].str.startswith("PRECAM", na=False)]
+
+# ==========================================================
+# CONVERSIÓN DE COLUMNAS A ENTERO (INT)
+# ==========================================================
+columnas_numericas = [
+    'Cantidad Física', 
+    'Cantidad Disponible', 
+    'Cantidad Asignada', 
+    'Cantidad Pickeada', 
+    'Cantidad Bloqueada'
+]
+
+for col in columnas_numericas:
+    if col in df.columns:
+        # Convierte a numérico, vuelve NaN los errores, rellena con 0 y pasa a entero
+        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0).astype(int)
+
+# ==========================================================
+# EXPORTAR DATOS FILTRADOS
+# ==========================================================
+archivo_salida = "Saldo_Stock.xlsx"
+
+# Exportar resultado
+df.to_excel(archivo_salida, index=False)
+
+# Abrir archivo generado
+os.startfile(archivo_salida)
+
+print("== FINALIZADO ==")

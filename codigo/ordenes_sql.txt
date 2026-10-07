@@ -1,0 +1,103 @@
+#---- PREPARAR ID DE CARGA POR OE2 ----
+import pandas as pd
+import sqlite3
+import glob
+import os
+
+# 'C:/Users/TU_USUARIO/Downloads/*.xlsx' Reference
+path_dw = os.path.join(os.path.expanduser('~'), 'Downloads', '*.xlsx')
+
+# Busca todos los archivos .xlsx y ordénalos por fecha de modificación
+file = glob.glob(path_dw)
+last_file = max(file, key=os.path.getmtime)
+path_db = 'mi_base.db'
+path_result = r'resultado_final.xlsx'
+path_file_result = os.path.join(os.path.expanduser('~'), 'Desktop', 'resultado_final.xlsx')
+
+print(f"Archivo cargado con éxito: {last_file}")
+# 1. Extract
+df_0 = pd.read_excel(last_file,
+                   sheet_name='Data',
+                   skiprows=1,
+                   dtype=str,
+                   usecols='C:AI'  # Select a trimmed column range
+                   )
+
+# Load only required columns
+df = df_0[[
+    'Fecha de expedición solicitada',
+    'Nº orden', 
+    'Propietario', 
+    'Tipo',
+    'Orden externa Nº1', 
+    'Orden externa Nº2',
+    'Número de carga'
+]]
+
+# Extraer los primeros 2 dígitos y convertir a entero
+df['num_dia'] = df['Fecha de expedición solicitada'].str[:2].astype(int)
+
+# Rename columns
+df = df.rename(columns={
+    'Nº orden': 'n_orden',
+    'Orden externa Nº1': 'oe_N1',
+    'Fecha de expedición solicitada': 'Fecha',
+    'Orden externa Nº2': 'oe_N2',
+    'Número de carga': 'ID'
+})
+
+# Additional cleaning
+df['Fecha'] = df['Fecha'].astype(str).str[:8]   # Trim time part
+df = df[df['ID'].isna()]                        # Filter rows without ID
+
+#== SQL processing section ==
+with sqlite3.connect(path_db) as conn:
+
+    # staging table
+    df.to_sql('ordenes', conn, if_exists='replace', index=False)
+
+    query = """
+	SELECT num_dia,
+		Fecha,
+		Tipo,
+		CASE WHEN oe_N2 = 'ISO' THEN oe_N2 ELSE oe_N1 END AS Destino_final,
+		Propietario,
+		n_orden AS ArrayOrdenes
+	FROM ordenes
+	WHERE Propietario = '0313' 
+	   OR oe_N2 = 'ISO'
+	
+	UNION ALL
+	
+	SELECT num_dia,
+		Fecha,
+		Tipo,
+		oe_N2 AS Destino_final,
+		Propietario, 
+		GROUP_CONCAT(n_orden, ' o ') AS ArrayOrdenes
+	FROM ordenes
+	WHERE NOT (Propietario = '0313' OR oe_N2 = 'ISO')
+	GROUP BY oe_N2, Propietario, Tipo, num_dia, Fecha
+	
+	ORDER BY Tipo, Destino_final, Propietario
+    """
+    
+    df_result = pd.read_sql(query, conn)
+    
+    # === AQUÍ SE AGREGAN LAS LÍNEAS NUEVAS =====
+    # 1. Creamos la columna contando caracteres del string generado por el GROUP_CONCAT
+    df_result["LEN"] = df_result["ArrayOrdenes"].str.len()
+    
+    # 2. Ordenamos el dataframe final de mayor a menor según los caracteres medidos
+    df_result = df_result.sort_values(by="LEN", ascending=False)
+    # ===========================================
+    # === AQUÍ ELIMINAMOS LA COLUMNA TEMPORAL ===
+    df_result = df_result.drop(columns=['LEN'])
+    # ===========================================
+
+    df_result.to_excel(path_file_result, index=False)
+    
+    print('Archivo resultado_final, creado con éxito')
+
+    # Abre el archivo Excel recién creado con el programa predeterminado (Excel)
+    os.startfile(path_file_result)
