@@ -94,3 +94,19 @@ function mostrarCodigo(archivo, boton) {
     });
 
 }
+
+//Animacion pestaña Navegador
+const textoTitulo = "ITERA  IMAGINA · DESARROLLA · IMPLEMENTA  ";
+let posicion = 0;
+
+setInterval(() => {
+  document.title =
+    textoTitulo.substring(posicion) +
+    textoTitulo.substring(0, posicion);
+
+  posicion++;
+
+  if (posicion >= textoTitulo.length) {
+    posicion = 0;
+  }
+}, 250);
