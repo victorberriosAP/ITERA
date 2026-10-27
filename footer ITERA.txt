@@ -1,0 +1,10 @@
+<footer class="site-footer mt-auto py-4 bg-white border-top">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 text-start">
+    <span>© 2026 CV Targer</span>
+    <span>
+      Creado por
+      <a href="https://itera-ecru.vercel.app/" target="_blank" rel="noopener noreferrer"><strong>ITERA</strong></a>
+      — IMAGINA | DESARROLLA | IMPLEMENTA
+    </span>
+  </div>
+</footer>
